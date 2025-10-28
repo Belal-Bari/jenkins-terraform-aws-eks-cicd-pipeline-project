@@ -15,6 +15,7 @@ pipeline {
     }
     stage ("Test") {
       steps {
+        echo "Testing"
         // script {
         //   sh '''
         //     node app.js &
@@ -26,6 +27,7 @@ pipeline {
     }
     stage ('Build Image') {
       steps {
+        echo "building image..."
         // script {
         //   echo "Building the docker image..."
         //   withCredentials([usernamePassword(credentialsId: 'docker_hub', passwordVariable: 'PASS', usernameVariable: 'USER')]) {
