@@ -6,9 +6,10 @@ pipeline {
         script {
           echo "Building the app and testing..."
           sh '''
-            docker-compose -f compose.yaml up -d
+            docker compose -f compose.yaml up -d
             sleep 5
-            curl -X GET http://loclhost:8000/entries
+            curl -X GET http://host.docker.internal:8000/entries
+            docker compose -f compose.yaml down -d
           '''
         }
       }
