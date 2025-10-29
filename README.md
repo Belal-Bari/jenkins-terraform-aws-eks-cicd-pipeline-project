@@ -25,3 +25,14 @@ Following curl command are used to test if the app and postgres is working prope
 # If the above commands work, continue to the next step. 
    
 ## 2. Setting up Jenkinsfile skeleton for build, test and deploy
+As for this project, jenkins is being run locally in docker containers, a tunneling service, ngrok will be setup for exposing local port (like 8080) to a public HTTPS URL.
+
+### Setup ngrok for GitHub’s webhook:
+1. Install ngrok:
+   ```bash
+   sudo apt install snapd
+   sudo snap install ngrok
+
+The above commands are run in WSL.
+
+2. 
