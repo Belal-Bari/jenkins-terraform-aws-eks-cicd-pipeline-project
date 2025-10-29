@@ -1,5 +1,8 @@
 pipeline {
   agent any
+  triggers {
+    githubPush()
+  }
   stages {
     stage ('Build') {
       steps {
@@ -9,7 +12,7 @@ pipeline {
             docker compose -f compose.yaml up -d
             sleep 5
             curl -X GET http://host.docker.internal:8000/entries
-            docker compose -f compose.yaml down -d
+            
           '''
         }
       }
