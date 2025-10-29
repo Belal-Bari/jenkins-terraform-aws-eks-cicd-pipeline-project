@@ -12,7 +12,7 @@ pipeline {
             docker compose -f compose.yaml up -d
             sleep 5
             curl -X GET http://host.docker.internal:8000/entries
-            echo "test successful"
+            echo "test successful" 
           '''
         }
       }
