@@ -22,10 +22,15 @@ Following curl command are used to test if the app and postgres is working prope
     curl -X GET http://localhost:8000/entries
 
 Once the test succeeds, this image is pushed to the public dockerhub repository <br>
-`docker push tanvirj9/journal-app:1.0` <br>
+`docker push tanvirj9/journal-app:1.1` <br>
 ### If the above commands work, continue to the next step. 
+
+## 2. Setting uf the Kubernetes Manifests for the app and the database.
+There are two main deployments, i.e. the app-deployment and the postgres-deployment. The services of both of these deployments are written in the same file for convenience. In addition to these, two configmaps have been defined, 'db-configmap' contains the name of the database that will be used and 'db-init-configMap' contains an initial script that will be run for creating required tables if the database is empty and run for the first time. Lastly, a secrets file, 'db-secret' contains the username, password and the URL of the database that will be used by both the previously mentioned deployments.
+
+The manifests are tested locally in minikube for ensuring proper configuration and if the configurations work properly, we move on to the next step.
    
-## 2. Setting up Jenkinsfile skeleton for build, test and deploy
+## 3. Setting up Jenkinsfile skeleton for build, test and deploy
 As for this project, jenkins is being run locally in docker containers, a tunneling service, ngrok will be setup for exposing local port (like 8080) to a public HTTPS URL.
 
 ### Setup ngrok for GitHub’s webhook:
