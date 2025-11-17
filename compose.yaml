@@ -12,8 +12,11 @@ services:
       
     restart: always
   backend_api:
-    build: . 
-    #image: tanvirj9/journal-app:1.0 
+    build: 
+      context: .
+      args:
+        VERSION: ${BUILD_NUMBER}
+    image: tanvirj9/journal-app:1.0.${BUILD_NUMBER}
     ports: 
       - 8000:8000
     depends_on:

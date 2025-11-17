@@ -3,6 +3,9 @@ pipeline {
   triggers {
     githubPush()
   }
+  environment {
+    BUILD_NUMBER = "${env.BUILD_NUMBER}"  // Jenkins provides this automatically
+  }
   stages {
     stage ('Build & Test') {
       steps {
@@ -13,6 +16,7 @@ pipeline {
             sleep 5
             curl -X GET http://host.docker.internal:8000/entries
             echo "test successful" 
+            
           '''
         }
       }
@@ -22,8 +26,9 @@ pipeline {
         script {
           echo "Pushing to Docker Registry"
           def version = "1.0.${BUILD_NUMBER}"
-          sh "docker build -t tanvirj9/journal-app:${version} ."
+          // sh "docker build -t tanvirj9/journal-app:${version} ."
           sh "docker push tanvirj9/journal-app:${version}"
+          sh "docker compose -f compose.yaml down -d"
         }
       }
     }
