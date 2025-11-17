@@ -4,7 +4,7 @@ pipeline {
     githubPush()
   }
   stages {
-    stage ('Build') {
+    stage ('Build & Test') {
       steps {
         script {
           echo "Building the app and testing..."
@@ -14,6 +14,16 @@ pipeline {
             curl -X GET http://host.docker.internal:8000/entries
             echo "test successful" 
           '''
+        }
+      }
+    }
+    stage ("Docker push") {
+      steps {
+        script {
+          echo "Pushing to Docker Registry"
+          def version = "1.0.${BUILD_NUMBER}"
+          sh "docker build -t tanvirj9/journal-app:${version} ."
+          sh "docker push tanvirj9/journal-app:${version}"
         }
       }
     }
