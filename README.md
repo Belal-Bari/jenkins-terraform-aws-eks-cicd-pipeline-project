@@ -23,6 +23,8 @@ Following curl command are used to test if the app and postgres is working prope
 
 Once the test succeeds, this image is pushed to the public dockerhub repository <br>
 `docker push tanvirj9/journal-app:1.1` <br>
+
+*NOTE*: Certain changes are done in the `compose.yaml` file (tag name of app is changed for auto version incrementing) after testing. <br/>
 ### If the above commands work, continue to the next step. 
 
 ## 2. Setting uf the Kubernetes Manifests for the app and the database.
