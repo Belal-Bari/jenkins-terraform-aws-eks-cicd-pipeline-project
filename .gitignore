@@ -171,3 +171,5 @@ cython_debug/
 .pypirc
 
 text.txt
+.terraform/
+.terraform.lock.hcl
