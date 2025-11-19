@@ -11,7 +11,7 @@ pipeline {
       steps {
         script {
           echo "Building the app and testing..."
-          sh "docker build -t tanvirj9/journal-app:1.0.${BUILD_NUMBER}"
+          sh "docker build -t tanvirj9/journal-app:1.0.${BUILD_NUMBER} ."
           sh '''
             docker compose -f compose.yaml up -d
             sleep 5
@@ -43,22 +43,23 @@ pipeline {
       steps {
         script {
           withCredentials([
-            string(credentialsId: 'vpc_cidr_block', variable: 'VPC_CIDR'),
-            string(credentialsId: 'private_subnet_cidr_blocks', variable: 'PRIVATE_SUBNETS'),
-            string(credentialsId: 'public_subnet_cidr_blocks', variable: 'PUBLIC_SUBNETS')
+            string(credentialsId: 'aws_access_key', variable: 'AWS_ACCESS_KEY'),
+            string(credentialsId: 'aws_secret_access_key', variable: 'AWS_SECRET_ACCESS_KEY'),
           ]) {
                 sh """
-                    terraform plan -auto-approve \
-                      -var "vpc_cidr_block=${VPC_CIDR}" \
-                      -var "private_subnet_cidr_blocks=${PRIVATE_SUBNETS}" \
-                      -var "public_subnet_cidr_blocks=${PUBLIC_SUBNETS}"
+                    export AWS_ACCESS_KEY_ID=$AWS_ACCESS_KEY
+                    export AWS_SECRET_ACCESS_KEY=$AWS_SECRET_ACCESS_KEY
+                    cd ./infra && terraform init
+                    terraform plan 
                   """
                 // sh """
                 //     terraform apply -auto-approve \
                 //       -var "vpc_cidr_block=${VPC_CIDR}" \
                 //       -var "private_subnet_cidr_blocks=${PRIVATE_SUBNETS}" \
                 //       -var "public_subnet_cidr_blocks=${PUBLIC_SUBNETS}"
+                //     aws eks update-kubeconfig --name (my-cluster) --region (eu-central-1) //get kubeconfig
                 //   """
+
           }
         }
       }
@@ -82,6 +83,16 @@ pipeline {
       steps {
         script {
           echo "Deploying..."
+          // sh """
+          //     kubectl apply -f ./k8s/db-configMap.yaml
+          //     kubectl apply -f ./k8s/db-init-configMap.yaml
+          //     kubectl apply -f ./k8s/db-secret.yaml
+          //     kubectl apply -f ./k8s/postgres-deployment.yaml
+          //     kubectl apply -f ./k8s/app-deployment.yaml
+          //     sleep 10
+          //     kubectl get pods
+          //     kubectl get svc app-service
+          //   """
         }
       }
     }
