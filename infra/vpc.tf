@@ -2,9 +2,13 @@ provider "aws" {
     region = "eu-north-1"    
 }
 
-variable vpc_cidr_block {}
-variable private_subnet_cidr_blocks {}
-variable public_subnet_cidr_blocks {}
+variable "vpc_cidr_block" {}
+variable "private_subnet_cidr_blocks" {
+    type = list(string)
+}
+variable "public_subnet_cidr_blocks" {
+    type = list(string)
+}
 
 data "aws_availability_zones" "azs" {}
 
