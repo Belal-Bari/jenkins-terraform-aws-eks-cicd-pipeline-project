@@ -9,12 +9,6 @@ from pydantic import BaseModel
 
 router = APIRouter()
 
-# TODO: Add authentication middleware
-# TODO: Add request validation middleware
-# TODO: Add rate limiting middleware
-# TODO: Add API versioning
-# TODO: Add response caching
-
 class Entry(BaseModel):
     work: str
     struggle: str
@@ -47,8 +41,6 @@ async def create_entry(request: Request, entry: Entry, entry_service: EntryServi
             raise e
     return JSONResponse(content={"detail": "Entry created successfully"}, status_code=201)
 
-# TODO: Implement GET /entries endpoint to list all journal entries
-# Example response: [{"id": "123", "work": "...", "struggle": "...", "intention": "..."}]
 @router.get("/entries")
 async def get_all_entries(request: Request):
     logger.info('Initiating GET /entries')
@@ -70,8 +62,6 @@ async def get_all_entries(request: Request):
 
 @router.get("/entries/{entry_id}")
 async def get_entry(request: Request, entry_id: str):
-    # TODO: Implement get single entry endpoint
-    # Hint: Return 404 if entry not found
     logger.info("Initiating GET /entries/:entry_id")
     async with PostgresDB() as db:
         entry_service = EntryService(db)
@@ -103,8 +93,6 @@ async def update_entry(request: Request, entry_id: str, entry_update: dict):
   
     return result
 
-# TODO: Implement DELETE /entries/{entry_id} endpoint to remove a specific entry
-# Return 404 if entry not found
 @router.delete("/entries/{entry_id}")
 async def delete_entry(request: Request, entry_id: str):
     # TODO: Implement delete entry endpoint
