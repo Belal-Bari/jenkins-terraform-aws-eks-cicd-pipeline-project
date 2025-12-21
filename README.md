@@ -83,7 +83,7 @@ The setup is tested locally in the following way:
 
 If the above steps work properly, move on to the next step.
    
-## 3. Setting up Jenkins for build, test and deploy
+## 4. Setting up Jenkins for build, test and deploy
 In this project, Jenkins will be run locally within a docker container and to run commands within the pipeline, certain installations need to be performed. 
 
 ### Setup Docker within Jenkins continer
