@@ -57,7 +57,19 @@ The above command is for testing purposes, it will have automated tag increment 
 ### If the above commands work, continue to the next step. 
 
 ## 2. Setting up the Kubernetes Manifests for the app and the database.
-There are two main deployments, i.e. the app-deployment and the postgres-deployment. The services of both of these deployments are written in the same file for convenience. In addition to these, two configmaps have been defined, 'db-configmap' contains the name of the database that will be used and 'db-init-configMap' contains an initial script that will be run for creating required tables if the database is empty and run for the first time. Lastly, a secrets file, 'db-secret' contains the username, password and the URL of the database that will be used by both the previously mentioned deployments.
+There are two main deployments, i.e. the app-deployment and the postgres-deployment. The services of both of these deployments are written in the same file for convenience. In addition to these, two configmaps have been defined, 'db-configmap' contains the name of the database that will be used and 'db-init-configMap' contains an initial script that will be run for creating required tables if the database is empty and run for the first time. Lastly, a secrets file, 'db-secret' contains the username, password and the URL of the database that will be used by both the previously mentioned deployments.<br/>
+Another yaml file is created for spinning up the k8 components in one go, called kustomization.yaml. The following command is used:
+```bash
+kubectl apply -k k8s/
+```
+The following is used to delete all resources:
+```bash
+kubectl delete -k k8/
+```
+Alternatively, another command can be used without kustomization.yaml file but has no environment control:
+```bash
+kubectl apply -f k8s/
+```
 
 The manifests are tested locally in minikube for ensuring proper configuration and if the configurations work properly, we move on to the next step.
 
