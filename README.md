@@ -148,16 +148,22 @@ First install some dependencies before installing Terraform.
 
 ### Install AWS CLI V2
 Run the following command for installing AWS CLI V2:
-   `curl "https://awscli.amazonaws.com/awscli-exe-linux-x86_64.zip" -o "awscliv2.zip"`
-   `unzip awscliv2.zip && ./aws/install`
+```bash
+curl "https://awscli.amazonaws.com/awscli-exe-linux-x86_64.zip" -o "awscliv2.zip"
+unzip awscliv2.zip && ./aws/install
+```
 
 Check the installation:
-   `aws --version`
+```bash
+aws --version
+```
 
 ### Install kubectl
 Run the following command for installing kubectl:
-   `curl -LO "https://dl.k8s.io/release/$(curl -L -s https://dl.k8s.io/release/stable.txt)/bin/linux/amd64/kubectl"`
-   `chmod +x kubectl && mv kubectl /usr/local/bin/`
+```bash
+curl -LO "https://dl.k8s.io/release/$(curl -L -s https://dl.k8s.io/release/stable.txt)/bin/linux/amd64/kubectl"
+chmod +x kubectl && mv kubectl /usr/local/bin/
+```
 
 As for this project, jenkins is being run locally in docker containers, a tunneling service, ngrok will be setup for exposing local port (like 8080) to a public HTTPS URL.
 
@@ -215,11 +221,15 @@ This stage handles Docker image creation and automated API testing.
 
 *Docker Build*<br/>
 Builds the image with a dynamic version:<br/>
-`docker build -t tanvirj9/journal-app:1.0.${BUILD_NUMBER} .` <br/>
+```bash
+docker build -t tanvirj9/journal-app:1.0.${BUILD_NUMBER} .
+```
 
 *Container Startup and Testing* <br/>
 Uses Docker Compose to start the application:<br/>
-`docker compose -f compose.yaml up -d`<br/>
+```bash
+docker compose -f compose.yaml up -d
+```
 After waiting for the app to initialize, automated test requests are run:
 
 - POST /entries – Creates a journal entry
@@ -229,10 +239,14 @@ If successful, "test successful" is printed.
 
 3. **Stage: Docker Push**
 Pushes the newly built versioned Docker image to Docker Hub:<br/>
-`docker push tanvirj9/journal-app:1.0.${BUILD_NUMBER}`<br/>
+```bash
+docker push tanvirj9/journal-app:1.0.${BUILD_NUMBER}
+```
 
 After pushing, the local Docker Compose environment is shut down:<br/>
-`docker compose -f compose.yaml down`
+```bash
+docker compose -f compose.yaml down
+```
 
 4. **Stage: Provisioning**
 This stage provisions the AWS infrastructure using Terraform.<br/>
@@ -252,7 +266,9 @@ The AWS credentials are set in the environment variables for cloud access. <br/>
 
 *EKS Configuration*<br/>
 After apply, kubeconfig is fetched:<br/>
-`aws eks update-kubeconfig --name (name_of_cluster) --region (name_of_region)`<br/>
+```bash
+aws eks update-kubeconfig --name (name_of_cluster) --region (name_of_region)
+```
 
 5. **Stage: Deploy**
 Deploys Kubernetes resources into the EKS cluster.<br/>
