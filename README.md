@@ -94,8 +94,35 @@ The setup is tested locally in the following way:
    terraform destroy -auto-approve
 
 If the above steps work properly, move on to the next step.
-   
-## 4. Setting up Jenkins for build, test and deploy
+
+## 4. Setting up Prometheus and Grafana for monitoring and observability
+The following setup is first done locally in minikube for understanding purpose. If it works successfully, the next step will be to set it in the EKS cluster. <br/>
+The setup is done using helm charts for easier setup and without errors. Firstly, install helm if not installed in local machine. The following is for Windows machine using chocolatey:
+```bash
+choco install kubernetes-helm -y
+helm version
+```
+Next, the repo is added for promethus:
+```bash
+helm repo add prometheus-community https://prometheus-community.github.io/helm-charts
+```
+Fetch chart metadata:
+```bash
+helm repo update
+```
+Now create a namespace in the k8 cluster named monitoring:
+```bash
+kubectl create namespace monitoring
+```
+Install kube-prometheus-stack in the monitoring namespace:
+```bash
+helm install monitoring prometheus-community/kube-prometheus-stack -n monitoring
+```
+Check the created k8 components in the monitoring namespace:
+```bash
+kubectl get all -n monitoring
+```
+## 5. Setting up Jenkins for build, test and deploy
 In this project, Jenkins will be run locally within a docker container and to run commands within the pipeline, certain installations need to be performed. 
 
 ### Setup Docker within Jenkins continer
