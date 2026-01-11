@@ -58,7 +58,7 @@ The above command is for testing purposes, it will have automated tag increment 
 
 ## 2. Setting up the Kubernetes Manifests for the app and the database.
 There are two main deployments, i.e. the app-deployment and the postgres-deployment. The services of both of these deployments are written in the same file for convenience. In addition to these, two configmaps have been defined, 'db-configmap' contains the name of the database that will be used and 'db-init-configMap' contains an initial script that will be run for creating required tables if the database is empty and run for the first time. Lastly, a secrets file, 'db-secret' contains the username, password and the URL of the database that will be used by both the previously mentioned deployments.<br/>
-Another yaml file is created for spinning up the k8 components in one go, called kustomization.yaml. The following command is used:
+Another yaml file is created for spinning up the k8 components in one go, called kustomization.yaml. The following command is used (using `-k` flag):
 ```bash
 kubectl apply -k k8s/
 ```
@@ -66,7 +66,7 @@ The following is used to delete all resources:
 ```bash
 kubectl delete -k k8/
 ```
-Alternatively, another command can be used without kustomization.yaml file but has no environment control:
+Alternatively, another command can be used without kustomization.yaml file but has no environment control (using `-f` flag):
 ```bash
 kubectl apply -f k8s/
 ```
@@ -121,6 +121,22 @@ helm install monitoring prometheus-community/kube-prometheus-stack -n monitoring
 Check the created k8 components in the monitoring namespace:
 ```bash
 kubectl get all -n monitoring
+```
+This should setup all the required components for monitoring. To stop / remove all Kubernetes components that were installed by this Helm command:
+```bash
+helm uninstall monitoring -n monitoring
+```
+To see the Prometheus UI dashboard, we need to port-forward to view it in the local browser:
+```bash
+kubectl port-forward service/monitoring-kube-prometheus-prometheus -n monitoring 9090:9090
+```
+To see the Grafana UI dashboard, we need to port forward to view it in the local browser:
+```bash
+kubectl port-forward service/monitoring-grafana -n monitoring 8080:80
+```
+In Grafana login page (127.0.0.1:8080), the password for the user 'admin' can be found using the following:
+```bash
+kubectl --namespace monitoring get secrets monitoring-grafana -o jsonpath="{.data.admin-password} | base64 -d; echo"
 ```
 ## 5. Setting up Jenkins for build, test and deploy
 In this project, Jenkins will be run locally within a docker container and to run commands within the pipeline, certain installations need to be performed. 
