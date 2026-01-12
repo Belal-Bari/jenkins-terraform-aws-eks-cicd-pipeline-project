@@ -1,7 +1,9 @@
 # End-to-End Project:
-This project demonstrates the complete end-to-end workflow of building, containerizing, and deploying a full-stack journal application using modern DevOps and cloud-native tools. The project covers the entire lifecycle—from Dockerization and local testing to Kubernetes manifest creation, infrastructure provisioning with Terraform, and an automated CI/CD workflow using Jenkins. The application is deployed on an Amazon EKS cluster, with Jenkins handling continuous integration, automated image versioning, and continuous deployment. This setup reflects real-world cloud DevOps practices and emphasizes scalability, automation, and infrastructure-as-code principles.<br/>
+This project demonstrates the complete end-to-end workflow of building, containerizing, and deploying a full-stack journal application using modern DevOps and cloud-native tools. The project covers the entire lifecycle—from Dockerization and local testing to Kubernetes manifest creation, infrastructure provisioning with Terraform, and an automated CI/CD workflow using Jenkins. The application is deployed on an Amazon EKS cluster, with Jenkins handling continuous integration, automated image versioning, and continuous deployment. This setup reflects real-world cloud DevOps practices and emphasizes scalability, automation and infrastructure-as-code principles.<br/>
 
-The system is designed to evolve, with future enhancements planned for secret management using HashiCorp Vault, monitoring with Prometheus and Grafana, and improved security controls.
+The backend app is designed to perform CRUD (Create, Read, Update and Delete) operation and uses the FastAPI framework.<br/>
+
+The system is designed to evolve, with future enhancements planned for secret management using HashiCorp Vault, monitoring with Prometheus and Grafana using AI agent and improved security controls.
 
 # Prerequisites
 The following knowledge, tools and accounts are required for this project: <br/>
